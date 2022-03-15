@@ -78,7 +78,10 @@ class IndeedSpider(object):
                 # put date in format: MON-DD
                 item['Date'] = date.strftime("%b") + '-' + date.strftime("%d")
                 item['Location'] = r[2][0]
-                item['URL'] = "https://ca.indeed.com" + r[3]
+                # issue: with encoded &amp; for HTML entities in some URL may lead to 404
+                # Solution: extract and clean URL using Replace
+                item['URL'] = "https://ca.indeed.com" + r[3].replace("&amp;","&")
+                # print(item['URL'])
                 # print(item)
                 t = ('', item['Company'], item['JobTitle'], item['Date'], item['Location'], '', item['URL'])
                 # append each tuple of job info to List
